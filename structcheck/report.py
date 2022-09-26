@@ -10,6 +10,17 @@ import utils
 
 
 def generate(path_root, path_conf, path_report, path_data, reports, logs):
+    """
+    Report generation
+
+    :param path_root:
+    :param path_conf:
+    :param path_report:
+    :param path_data:
+    :param reports:
+    :param logs:
+    :return:
+    """
     reports = sorted(reports, key=lambda x: x[0])
     reports_txt = ""
     error_num = 1

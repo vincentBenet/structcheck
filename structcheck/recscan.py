@@ -8,6 +8,13 @@ import datetime
 
 
 def init_scan(path_root, config):
+    """
+    First scan of tree structure to check for empty directory
+
+    :param path_root:
+    :param config:
+    :return:
+    """
     logs = {
         "Total files": 0,
         "Total folders": 0,
@@ -23,7 +30,7 @@ def init_scan(path_root, config):
         if not ignore:
             logs["Total files"] += len(files)
             logs["Total folders"] += 1
-        if not len(files):
+        if len(files) == 0:
             logs["Total empty directory"] += 1
 
     return logs
@@ -31,6 +38,19 @@ def init_scan(path_root, config):
 
 def check_iter_unallowed_dict(
         path_file, struct, dates_format, report=None, log=None, date_parent=None, key=None, path_next=None):
+    """
+    Check for not allowed foldersand dates non-regression.
+
+    :param path_file:
+    :param struct:
+    :param dates_format:
+    :param report:
+    :param log:
+    :param date_parent:
+    :param key:
+    :param path_next:
+    :return:
+    """
     log["Folder allowed validated"] = log.get("Folder allowed validated", 0) + 1
     date_call = date_parent
     validate_iter = True
@@ -59,6 +79,19 @@ def check_iter_unallowed_dict(
 
 def check_iter_unallowed_list(path_file, struct, dates_format, report=None, log=None, date_parent=None, key=None,
                               path_next=None):
+    """
+    Check for not allowed files and date corresponding.
+
+    :param path_file:
+    :param struct:
+    :param dates_format:
+    :param report:
+    :param log:
+    :param date_parent:
+    :param key:
+    :param path_next:
+    :return:
+    """
     validate_iter = False
     for struct_file in struct[key]:
         if re.match(struct_file, path_next) or path_next == struct_file:
@@ -84,6 +117,17 @@ def check_iter_unallowed_list(path_file, struct, dates_format, report=None, log=
 
 
 def check_unallowed(path, struct, dates_format, report=None, log=None, date_parent=None):
+    """
+    Run scan for not allowed paths.
+
+    :param path:
+    :param struct:
+    :param dates_format:
+    :param report:
+    :param log:
+    :param date_parent:
+    :return:
+    """
     if report is None:
         report = []
     if log is None:
@@ -122,22 +166,29 @@ def check_unallowed(path, struct, dates_format, report=None, log=None, date_pare
             report.append([
                 path_file,
                 "Not allowed file",
-                f"""< {path_next} >. Allowed matches : {
-                    [key for key in struct.get('Files', []) + struct.get('Files_optionnal', [])]
-                }"""
+                f"< {path_next} >. Allowed matches : {struct.get('Files', []) + struct.get('Files_optionnal', [])}"
             ])
         elif os.path.isdir(path_file):
             report.append([
                 path_file,
                 "Not allowed folder",
                 f"""< {path_next} >. Allowed matches : {
-                    [key for key in struct.get('Files', []) + struct.get('Files_optionnal', [])
-                    ] + [k for k in struct if k not in ['Files', 'Files_optionnal']]
+                    struct.get('Files', []) + struct.get('Files_optionnal', []) +
+                    [k for k in struct if k not in ['Files', 'Files_optionnal']]
                 }"""])
     return report, log
 
 
 def check_unpresent(path, struct, report=None, log=None):
+    """
+    Check if all declared paths are presents in structure.
+
+    :param path:
+    :param struct:
+    :param report:
+    :param log:
+    :return:
+    """
     if report is None:
         report = []
     if log is None:
@@ -145,7 +196,7 @@ def check_unpresent(path, struct, report=None, log=None):
     if os.path.isfile(path):
         return report, log
     dirs = os.listdir(path)
-    if not len(dirs) and struct != {}:
+    if len(dirs) == 0 and struct != {}:
         report.append([path, "Empty directory", ""])
     else:
         for key in struct:
