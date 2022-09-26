@@ -16,3 +16,8 @@ pylint = "^2.15.3"
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[project.urls]
+"Homepage" = "https://github.com/pypa/structcheck"
+"Bug Tracker" = "https://github.com/pypa/structcheck/issues"
+"Author" = "https://github.com/vincentBenet"

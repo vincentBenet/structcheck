@@ -43,7 +43,8 @@ class TestStructures(unittest.TestCase):
         path_data_succes = os.path.join(current_dir, "data_fail")
         for folder in os.listdir(path_data_succes):
             path_folder = os.path.join(path_data_succes, folder)
-            print(f"\n{'_' * 115}\n{'_' * 115}\n{inspect.stack()[0][3]}: {folder} - < {path_folder} >\n{'_' * 115}\n{'_' * 115}")
+            print(f"""\n{'_' * 115}\n{'_' * 115}\n{
+                inspect.stack()[0][3]}: {folder} - < {path_folder} >\n{'_' * 115}\n{'_' * 115}""")
             args = structcheck.check_args({
                 "root": path_folder
             })
