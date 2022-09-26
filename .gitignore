@@ -1,7 +1,6 @@
 # Byte-compiled / optimized / DLL files
 dist/
 .idea/
-.pypirc
 __pycache__/
 .pytest_cache/
 *.py[cod]
