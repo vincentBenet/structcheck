@@ -17,15 +17,16 @@ def parse(sysargv):
 
 
 def check_args(args_input):
-    root = tkinter.Tk()
-    root.withdraw()
-    root.update()
     if args_input.get("root", None) is None:  # Input folder path
         while True:
+            root = tkinter.Tk()
+            root.withdraw()
+            root.update()
             args_input["root"] = tkinter.filedialog.askdirectory(
                 initialdir= os.getcwd(),
                 title= "Select the root of architecture folder",
             )
+            root.destroy()
             if args_input["root"] != "":
                 break
     if args_input.get("conf", None) is None:  # Input file path
@@ -37,11 +38,15 @@ def check_args(args_input):
             args_input["conf"] = default_path
         else:
             while True:
+                root = tkinter.Tk()
+                root.withdraw()
+                root.update()
                 args_input["conf"] = tkinter.filedialog.askopenfilename(
                     initialdir= default_path,
                     title= "Select the structure configuration file",
                     filetypes = (("Struct check Files", "*.json"),)
                 )
+                root.destroy()
                 if args_input["conf"] != "":
                     break
     if args_input.get("report", None) is None:  # Output text file path
@@ -54,7 +59,7 @@ def check_args(args_input):
             args_input["root"],
             ".structdata.json"
         )
-    root.destroy()
+    
     return args_input
 
 
