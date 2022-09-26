@@ -20,8 +20,16 @@
 			"Files": [
 				"^file\\d.txt$"
 			],
-			"^folder\\d$": {}
+			"^folder\\d$": {
+				"Files_optionnal": [
+					"^.*$"
+				]
+			}
 		},
-		"folder2": {}
+		"^folder2$": {
+			"Files_optionnal": [
+				"^.*$"
+			]
+		}
     }
 }

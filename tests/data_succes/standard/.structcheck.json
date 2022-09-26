@@ -15,7 +15,10 @@
 			"Files" : [
 				"file2.txt"
 			],
-			"folder2": {
+			"^folder\\d$": {
+				"Files_optionnal": [
+					"^.*$"
+				]
 			}
 		}
     }
