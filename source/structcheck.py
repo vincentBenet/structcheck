@@ -20,12 +20,12 @@ def check_args(args_input):
     root = tkinter.Tk()
     root.withdraw()
     root.update()
-    if args_input["root"] is None:  # Input folder path
+    if args_input.get("root", None) is None:  # Input folder path
         args_input["root"] = tkinter.filedialog.askdirectory(
             initialdir= os.getcwd(),
             title= "Select the root of architecture folder",
         )
-    if args_input["conf"] is None:  # Input file path
+    if args_input.get("conf", None) is None:  # Input file path
         default_path = os.path.join(
             args_input["root"],
             ".structcheck.json"
@@ -38,12 +38,12 @@ def check_args(args_input):
                 title= "Select the structure configuration file",
                 filetypes = (("Struct check Files", "*.json"),)
             )
-    if args_input["report"] is None:  # Output text file path
+    if args_input.get("report", None) is None:  # Output text file path
         args_input["report"] = os.path.join(
             args_input["root"],
             "structcheck.txt"
         )
-    if args_input["data"] is None:  # Output data save file path
+    if args_input.get("data", None) is None:  # Output data save file path
         args_input["data"] = os.path.join(
             args_input["root"],
             ".structdata.json"
@@ -52,23 +52,17 @@ def check_args(args_input):
     return args_input
 
 
-def main(path_root, path_conf, path_report, path_data):
-    print(f"{path_root = }")
-    print(f"{path_conf = }")
-    print(f"{path_report = }")
-    print(f"{path_data = }")
-    
-    config = json.load(open(path_conf))
-    
+def main(path_root, path_conf, path_report, path_data, display=True):
+    with open(path_conf, "r") as f:
+        config = json.load(f)
     logs = recscan.init_scan(path_root, config)
     
     reports, logs = recscan.check_unallowed(path_root, config[f"Structure"], config["dates_format"], log=logs)
     reports, logs = recscan.check_unpresent(path_root, config[f"Structure"], reports, logs)
+    txt, reports, logs = report.generate(path_root, path_conf, path_report, path_data, config, reports, logs)
     
-    txt = report.generate(path_root, path_conf, path_report, path_data, config, reports, logs)
-    
-    print(txt)
-    
+    if display:
+        print(txt)
     return txt, reports, logs
 
 if __name__ == "__main__":

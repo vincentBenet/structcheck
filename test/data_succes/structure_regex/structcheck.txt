@@ -1,0 +1,27 @@
+
+__________________________________________________INTRODUCTION__________________________________________________
+Scan structures of files and folders
+This script use REGEX to validate files and folders structure. Please find regex usage on < https://regex101.com/ >
+Scan : 2022-09-26 12:43:20 by < vince >
+
+__________________________________________________RESUME__________________________________________________
+File allowed checked: 5 (+0)
+File allowed validated: 3 (+0)
+File presence checked: 57 (+0)
+File presence validated: 9 (+0)
+Folder allowed checked: 1 (+0)
+Folder presence checked: 6 (+0)
+Folder presence validated: 2 (+0)
+Total empty directory: 1 (+0)
+Total files: 7 (+0)
+Total folders: 3 (+0)
+
+Coverage files: 62 / 7 : 857.14% (+0.0%)
+Coverage folders: 7 / 3 : 233.33% (+0.0%)
+Allowed Files: 3 / 5 : 60.0% (+0.0%)
+Allowed Folders: 0 / 1 : 0.0% (+0.0%)
+Presence Files: 9 / 57 : 15.79% (+0.0%)
+Presence Folders: 2 / 6 : 33.33% (+0.0%)
+
+__________________________________________________ERRORS__________________________________________________
+

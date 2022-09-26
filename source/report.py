@@ -9,22 +9,25 @@ def generate(path_root, path_conf, path_report, path_data, config, reports, logs
     reports_txt = ""
     has_error = False
     error_num = 1
+    filter_errors = []
     for report_i in reports:
         error_path, error_type, error_args = report_i
         is_root = error_path == path_root
-        if is_root and error_type in ["Empty directory", "Missing folder matching"]:
-            continue
-        if error_path in [path_conf, path_report, path_data]:
-            continue
         has_error = True
         key = f"Error: {error_type}"
-        logs[key] = logs.get(key, 0) + 1
         owner = utils.find_owner(error_path)
-        reports_txt += f"{error_num}: {error_path[len(path_root)+1:]} ({owner if owner != '' else path_root}) : {error_type} | {error_args}" + "\n"
+        report_error = f"{error_num}: {error_path[len(path_root)+1:]} ({owner if owner != '' else path_root}) : {error_type} | {error_args}" + "\n"
+        if is_root and error_type in ["Empty directory", "Missing folder matching"] or error_path in [path_conf, path_report, path_data]:
+            filter_errors.append("".join(report_i))
+            continue
+        reports_txt += report_error
         error_num += 1
-    reports = reports_txt
+        logs[key] = logs.get(key, 0) + 1
+    
+    reports = [[error_path, error_type, error_args] for error_path, error_type, error_args in reports if "".join([error_path, error_type, error_args]) not in filter_errors]
+    
     if os.path.isfile(path_data):
-        with open(path_data) as f:
+        with open(path_data, "r") as f:
             try:
                 logs_old = json.load(f)
             except:
@@ -66,7 +69,7 @@ def generate(path_root, path_conf, path_report, path_data, config, reports, logs
     txt += (f"Presence Files: {logs.get('File presence validated', 0)} / {logs.get('File presence checked', 0)} : {coverages['Presence Files']}% ({diff_txt['Presence Files']}%)") + "\n"
     txt += (f"Presence Folders: {logs.get('Folder presence validated', 0)} / {logs.get('Folder presence checked', 0)} : {coverages['Presence Folders']}% ({diff_txt['Presence Folders']}%)") + "\n"
     txt += ("\n" + "_" * 50 + "ERRORS" + "_" * 50) + "\n"
-    txt += (f'{reports}') + "\n"
+    txt += (f'{reports_txt}') + "\n"
 
     with open(path_report, "w") as f:
         f.write(txt)
@@ -74,4 +77,4 @@ def generate(path_root, path_conf, path_report, path_data, config, reports, logs
     with open(path_data, "w") as f:
         json.dump({**logs, **coverages}, f)
     
-    return txt
+    return txt, reports, logs
