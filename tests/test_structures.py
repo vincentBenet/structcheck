@@ -1,6 +1,5 @@
 import os
 import sys
-import json
 import inspect
 import unittest
 
@@ -19,15 +18,13 @@ class TestStructures(unittest.TestCase):
             args = structcheck.check_args({
                 "root": path_folder
             })
-            txt, reports, logs = structcheck.main(
+            _, reports, _ = structcheck.main(
                 args["root"], args["conf"], args["report"], args["data"],
-                display=False
+                display=True
             )
-            
-            print(txt)
-            
+
             self.assertEqual(len(reports), 0)  # Check no error
-            
+
             # Check files are generated
             self.assertEqual(os.path.isfile(os.path.join(path_folder, "structcheck.txt")), True)
             self.assertEqual(os.path.isfile(os.path.join(path_folder, ".structcheck.json")), True)
@@ -40,24 +37,22 @@ class TestStructures(unittest.TestCase):
             args = structcheck.check_args({
                 "root": path_folder
             })
-            txt, reports, logs = structcheck.main(
+            _, reports, _ = structcheck.main(
                 args["root"], args["conf"], args["report"], args["data"],
-                display=False
+                display=True
             )
-            
-            print(txt)
-            
+
             self.assertEqual(len(reports), 1)  # Check exactly one error
-            
+
             # Check files are generated
             self.assertEqual(os.path.isfile(os.path.join(path_folder, "structcheck.txt")), True)
             self.assertEqual(os.path.isfile(os.path.join(path_folder, ".structdata.json")), True)
-            
+
             # Check error type
             if len(reports) == 1:
-                error_path, error_type, error_args = reports[0]
+                _, error_type, _ = reports[0]
                 self.assertEqual(error_type, "Date file different")
-            
+
 
 if __name__ == "__main__":
     try:

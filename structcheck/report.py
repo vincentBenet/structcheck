@@ -28,9 +28,9 @@ def generate(path_root, path_conf, path_report, path_data, config, reports, logs
     reports = [[error_path, error_type, error_args] for error_path, error_type, error_args in reports if "".join([error_path, error_type, error_args]) not in filter_errors]
     
     if os.path.isfile(path_data):
-        with open(path_data, "r") as f:
+        with open(path_data, "r") as file:
             try:
-                logs_old = json.load(f)
+                logs_old = json.load(file)
             except:
                 logs_old = {}
     else:
@@ -53,7 +53,7 @@ def generate(path_root, path_conf, path_report, path_data, config, reports, logs
 
     txt = ("\n" + "_" * 50 + "INTRODUCTION" + "_" * 50) + "\n"
     txt += "Scan structures of files and folders" + "\n"
-    txt += f"This script use REGEX to validate files and folders structure. "
+    txt += "This script use REGEX to validate files and folders structure. "
     txt += "Please find regex usage on < https://regex101.com/ >" + "\n"
     txt += f"Scan : {datetime.datetime.strftime(datetime.datetime.now(), '%Y-%m-%d %H:%M:%S')} by < {getpass.getuser()} >" + "\n"
     txt += ("\n" + "_" * 50 + "RESUME" + "_" * 50) + "\n"
@@ -72,10 +72,10 @@ def generate(path_root, path_conf, path_report, path_data, config, reports, logs
     txt += ("\n" + "_" * 50 + "ERRORS" + "_" * 50) + "\n"
     txt += (f'{reports_txt}') + "\n"
 
-    with open(path_report, "w") as f:
-        f.write(txt)
+    with open(path_report, "w") as file:
+        file.write(txt)
 
-    with open(path_data, "w") as f:
-        json.dump({**logs, **coverages}, f)
+    with open(path_data, "w") as file:
+        json.dump({**logs, **coverages}, file)
     
     return txt, reports, logs

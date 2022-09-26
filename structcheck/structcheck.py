@@ -62,11 +62,11 @@ def main(path_root, path_conf, path_report, path_data, display=True):
     with open(path_conf, "r") as f:
         config = json.load(f)
     logs = recscan.init_scan(path_root, config)
-    
+
     reports, logs = recscan.check_unallowed(path_root, config[f"Structure"], config.get("dates_format", []), log=logs)
     reports, logs = recscan.check_unpresent(path_root, config[f"Structure"], reports, logs)
     txt, reports, logs = report.generate(path_root, path_conf, path_report, path_data, config, reports, logs)
-    
+
     if display:
         print(txt)
     return txt, reports, logs
