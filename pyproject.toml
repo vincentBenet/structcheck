@@ -11,6 +11,7 @@ python = "^3.9"
 
 [tool.poetry.group.dev.dependencies]
 unittest = "^0.0"
+pylint = "^2.15.3"
 
 [build-system]
 requires = ["poetry-core"]
