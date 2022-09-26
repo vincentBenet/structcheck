@@ -1,0 +1,27 @@
+{
+	"dates_format": {
+		"\\d{4}-\\d{2}-\\d{2}": "%Y-%m-%d",
+		"\\d{4}\\d{2}\\d{2}": "%Y%m%d"
+	},
+	"ignored_folders": [
+		"^.Trash-1000$",
+		"^#recycle$",
+		"^@eaDir$",
+		"^.DS_Store$"
+	],	
+	"Structure": {
+		"Files_optionnal": [
+			"folder\\d"
+		],
+		"Files": [
+			"^file\\d.txt$"
+		],
+		"^folder\\d$": {
+			"Files": [
+				"^file\\d.txt$"
+			],
+			"^folder\\d$": {}
+		},
+		"folder2": {}
+    }
+}
