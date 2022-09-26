@@ -1,20 +1,30 @@
+"""
+Testing single script for the project
+"""
+
 import os
-import sys
 import inspect
 import unittest
-
-current_dir = os.path.dirname(__file__)
-source_dir = os.path.join(current_dir, "..", "structcheck")
-sys.path.insert(0, source_dir)
-
 import structcheck
 
+
 class TestStructures(unittest.TestCase):
+    """
+    Testing object from unittest lib
+    """
     def test_succes(self):
+        """
+        Test all structures stored inside the 'data_succes' folder.
+        No errors has to be raised!
+
+        :return:
+        """
         path_data_succes = os.path.join(current_dir, "data_succes")
         for folder in os.listdir(path_data_succes):
             path_folder = os.path.join(path_data_succes, folder)
-            print(f"\n{'_' * 115}\n{'_' * 115}\n{inspect.stack()[0][3]}: {folder} - < {path_folder} >\n{'_' * 115}\n{'_' * 115}")
+            print(f"""\n{'_' * 115}\n{'_' * 115}\n{
+                inspect.stack()[0][3]
+            }: {folder} - < {path_folder} >\n{'_' * 115}\n{'_' * 115}""")
             args = structcheck.check_args({
                 "root": path_folder
             })
@@ -55,6 +65,10 @@ class TestStructures(unittest.TestCase):
 
 
 if __name__ == "__main__":
+    import sys
+    current_dir = os.path.dirname(__file__)
+    source_dir = os.path.join(current_dir, "..", "structcheck")
+    sys.path.insert(0, source_dir)
     try:
         unittest.main()
     except SystemExit:
