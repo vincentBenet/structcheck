@@ -3,15 +3,23 @@ Testing single script for the project
 """
 
 import os
+import sys
 import inspect
 import unittest
-import structcheck
+
+current_dir = os.path.dirname(__file__)
+source_dir = os.path.join(current_dir, "..", "structcheck")
 
 
 class TestStructures(unittest.TestCase):
     """
     Testing object from unittest lib
     """
+    def setUp(self):
+        sys.path.insert(0, source_dir)
+        global structcheck
+        import structcheck
+    
     def test_succes(self):
         """
         Test all structures stored inside the 'data_succes' folder.
@@ -66,10 +74,6 @@ class TestStructures(unittest.TestCase):
 
 
 if __name__ == "__main__":
-    import sys
-    current_dir = os.path.dirname(__file__)
-    source_dir = os.path.join(current_dir, "..", "structcheck")
-    sys.path.insert(0, source_dir)
     try:
         unittest.main()
     except SystemExit:
