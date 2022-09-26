@@ -23,6 +23,7 @@ def generate(path_root, path_conf, path_report, path_data, config, reports, logs
         reports_txt += report_error
         error_num += 1
         logs[key] = logs.get(key, 0) + 1
+        logs["Error"] = logs.get("Error", 0) + 1
     
     reports = [[error_path, error_type, error_args] for error_path, error_type, error_args in reports if "".join([error_path, error_type, error_args]) not in filter_errors]
     

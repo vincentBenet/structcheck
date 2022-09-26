@@ -8,11 +8,12 @@ def init_scan(path_root, config):
         "Total files": 0,
         "Total folders": 0,
         "Total empty directory": 0,
+        "Errors": 0
     }
     
     for r, d, files in os.walk(path_root):
         ignore = False
-        for ignored_folder in config["ignored_folders"]:
+        for ignored_folder in config.get("ignored_folders", []):
             if r.startswith(os.path.join(path_root, ignored_folder)):
                 ignore = True
         if not ignore:

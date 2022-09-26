@@ -2,9 +2,10 @@
 __________________________________________________INTRODUCTION__________________________________________________
 Scan structures of files and folders
 This script use REGEX to validate files and folders structure. Please find regex usage on < https://regex101.com/ >
-Scan : 2022-09-26 12:43:20 by < vince >
+Scan : 2022-09-26 14:39:46 by < vince >
 
 __________________________________________________RESUME__________________________________________________
+Errors: 0 (+0)
 File allowed checked: 7 (+0)
 File allowed validated: 6 (+0)
 File presence checked: 109 (+0)

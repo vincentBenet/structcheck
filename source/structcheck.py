@@ -21,10 +21,13 @@ def check_args(args_input):
     root.withdraw()
     root.update()
     if args_input.get("root", None) is None:  # Input folder path
-        args_input["root"] = tkinter.filedialog.askdirectory(
-            initialdir= os.getcwd(),
-            title= "Select the root of architecture folder",
-        )
+        while True:
+            args_input["root"] = tkinter.filedialog.askdirectory(
+                initialdir= os.getcwd(),
+                title= "Select the root of architecture folder",
+            )
+            if args_input["root"] != "":
+                break
     if args_input.get("conf", None) is None:  # Input file path
         default_path = os.path.join(
             args_input["root"],
@@ -33,11 +36,14 @@ def check_args(args_input):
         if os.path.isfile(default_path):
             args_input["conf"] = default_path
         else:
-            args_input["conf"] = tkinter.filedialog.askopenfilename(
-                initialdir= default_path,
-                title= "Select the structure configuration file",
-                filetypes = (("Struct check Files", "*.json"),)
-            )
+            while True:
+                args_input["conf"] = tkinter.filedialog.askopenfilename(
+                    initialdir= default_path,
+                    title= "Select the structure configuration file",
+                    filetypes = (("Struct check Files", "*.json"),)
+                )
+                if args_input["conf"] != "":
+                    break
     if args_input.get("report", None) is None:  # Output text file path
         args_input["report"] = os.path.join(
             args_input["root"],
@@ -57,7 +63,7 @@ def main(path_root, path_conf, path_report, path_data, display=True):
         config = json.load(f)
     logs = recscan.init_scan(path_root, config)
     
-    reports, logs = recscan.check_unallowed(path_root, config[f"Structure"], config["dates_format"], log=logs)
+    reports, logs = recscan.check_unallowed(path_root, config[f"Structure"], config.get("dates_format", []), log=logs)
     reports, logs = recscan.check_unpresent(path_root, config[f"Structure"], reports, logs)
     txt, reports, logs = report.generate(path_root, path_conf, path_report, path_data, config, reports, logs)
     
