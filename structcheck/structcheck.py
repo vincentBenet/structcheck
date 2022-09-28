@@ -113,7 +113,7 @@ def main(path_root, path_conf, path_report, path_data, display=True):
 def main2():
     args = parse()
     args = check_args(args)
-    main(args["root"], args["conf"], args["report"], args["data"])
+    return main(args["root"], args["conf"], args["report"], args["data"])
 
 if __name__ == "__main__":
     main2()
