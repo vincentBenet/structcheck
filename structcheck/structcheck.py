@@ -3,21 +3,23 @@ Main file of structure check
 """
 
 import os
+import sys
 import json
 import argparse
 import tkinter
 import tkinter.filedialog
 
-import recscan
-import report
+from . import recscan
+from . import report
 
 
-def parse():
+def parse(args=None):
     """
     Argument parsing function for shell-call.
 
     :return:
     """
+    args = sys.argv[1:] if args is None else args
     parser = argparse.ArgumentParser(description='Process some integers.')
     parser.add_argument(
         '-c', '--conf', metavar='conf_path', type=str, help='Path of the config structure.', default=None)
@@ -28,7 +30,7 @@ def parse():
     parser.add_argument(
         '-d', '--data', metavar='data_path', type=str,
         help='Path of the json data file to calculate diff with last scan.', default=None)
-    return vars(parser.parse_args())
+    return vars(parser.parse_args(args))
 
 
 def check_args(args_input):
@@ -108,7 +110,10 @@ def main(path_root, path_conf, path_report, path_data, display=True):
     return txt, reports, logs
 
 
-if __name__ == "__main__":
+def main2():
     args = parse()
     args = check_args(args)
     main(args["root"], args["conf"], args["report"], args["data"])
+
+if __name__ == "__main__":
+    main2()

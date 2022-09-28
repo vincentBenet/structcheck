@@ -6,7 +6,8 @@ import os
 import json
 import datetime
 import getpass
-import utils
+
+from . import utils
 
 
 def generate(path_root, path_conf, path_report, path_data, reports, logs):
