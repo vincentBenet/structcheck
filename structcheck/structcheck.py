@@ -7,12 +7,12 @@ import sys
 import json
 import argparse
 try:
-	import tkinter
-	import tkinter.filedialog
+    import tkinter
+    import tkinter.filedialog
     TK=True
 except ModuleNotFoundError:
-	TK=False
-	
+    TK=False
+    
 from . import recscan
 from . import report
 
