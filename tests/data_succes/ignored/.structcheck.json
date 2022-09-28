@@ -1,0 +1,28 @@
+{
+	"ignored_folders": [
+		 "^bla$"
+	  ],
+	"Structure": {
+		"Files_optionnal": [
+			"file1.txt",
+			"folder2"
+		],
+		"Files": [
+			"file2.txt"
+		],
+		"folder1": {
+			"Files_optionnal": [
+				"file1.txt",
+				"folder2"
+			],
+			"Files" : [
+				"file2.txt"
+			],
+			"^folder\\d$": {
+				"Files_optionnal": [
+					"^.*$"
+				]
+			}
+		}
+    }
+}

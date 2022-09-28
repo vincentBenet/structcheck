@@ -110,10 +110,10 @@ def main(path_root, path_conf, path_report, path_data, display=True):
     return txt, reports, logs
 
 
-def main2():
+def scan():
     args = parse()
     args = check_args(args)
     return main(args["root"], args["conf"], args["report"], args["data"])
 
 if __name__ == "__main__":
-    main2()
+    scan()

@@ -8,7 +8,7 @@ import inspect
 import unittest
 
 current_dir = os.path.dirname(__file__)
-source_dir = os.path.join(current_dir, "..", "structcheck")
+source_dir = os.path.join(current_dir, "..")
 
 
 class TestStructures(unittest.TestCase):
