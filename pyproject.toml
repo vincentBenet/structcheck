@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "structcheck"
-version = "1.0.6"
+version = "1.0.7"
 description = "Project to check not presents and not allowed files and folders using regex. Include also some datums corresponding validations in folders and filenames. This project don't check files contents!"
 authors = ["vincentBenet <vincent.benet@outlook.fr>"]
 readme = "README.md"
