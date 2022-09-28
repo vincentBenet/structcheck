@@ -36,9 +36,6 @@ def generate(path_root, path_conf, path_report, path_data, reports, logs):
         owner = utils.find_owner(error_path)
         owner = owner if owner != '' else path_root
         report_error = f"{error_num}: {error_path[len(path_root) + 1:]} ({owner}) : {error_type} | {error_args}" + "\n"
-        print(f"{re.match('^bla$', error_path) = }")
-        print(f"{error_path = }")
-        
         
         if (
                 is_root and
