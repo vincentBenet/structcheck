@@ -6,9 +6,13 @@ import os
 import sys
 import json
 import argparse
-import tkinter
-import tkinter.filedialog
-
+try:
+	import tkinter
+	import tkinter.filedialog
+    TK=True
+except ModuleNotFoundError:
+	TK=False
+	
 from . import recscan
 from . import report
 
@@ -41,7 +45,7 @@ def check_args(args_input):
     :return:
     """
     if args_input.get("root", None) is None:  # Input folder path
-        while True:
+        while TK:
             root = tkinter.Tk()
             root.withdraw()
             root.update()
@@ -60,7 +64,7 @@ def check_args(args_input):
         if os.path.isfile(default_path):
             args_input["conf"] = default_path
         else:
-            while True:
+            while TK:
                 root = tkinter.Tk()
                 root.withdraw()
                 root.update()
