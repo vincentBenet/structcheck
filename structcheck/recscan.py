@@ -18,7 +18,6 @@ def init_scan(path_root, config):
     logs = {
         "Total files": 0,
         "Total folders": 0,
-        "Total empty directory": 0,
         "Errors": 0
     }
 
@@ -31,7 +30,7 @@ def init_scan(path_root, config):
             logs["Total files"] += len(files)
             logs["Total folders"] += 1
         if len(files) == 0:
-            logs["Total empty directory"] += 1
+            report.append([raw, "Empty directory", ""])
 
     return logs
 

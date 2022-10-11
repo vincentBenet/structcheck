@@ -103,9 +103,9 @@ def main(path_root, path_conf, path_report, path_data, display=True):
     """
     with open(path_conf, "r", encoding="utf8") as file:
         config = json.load(file)
-    logs = recscan.init_scan(path_root, config)
-
-    reports, logs = recscan.check_unallowed(path_root, config["Structure"], config.get("dates_format", []), log=logs)
+        
+    reports, logs = recscan.init_scan(path_root, config)
+    reports, logs = recscan.check_unallowed(path_root, config["Structure"], config.get("dates_format", []), reports, log=logs)
     reports, logs = recscan.check_unpresent(path_root, config["Structure"], reports, logs)
     txt, reports, logs = report.generate(path_root, path_conf, path_report, path_data, reports, logs)
 
