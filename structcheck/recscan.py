@@ -20,6 +20,8 @@ def init_scan(path_root, config):
         "Total folders": 0,
         "Errors": 0
     }
+    
+    report = []
 
     for raw, _, files in os.walk(path_root):
         ignore = False
@@ -32,7 +34,7 @@ def init_scan(path_root, config):
         if len(files) == 0:
             report.append([raw, "Empty directory", ""])
 
-    return logs
+    return report, logs
 
 
 def check_iter_unallowed_dict(
