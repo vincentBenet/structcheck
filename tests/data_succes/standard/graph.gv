@@ -1,0 +1,43 @@
+digraph "Graph" {
+	root [description="Root of data classification" regex="^root$" tooltip="root : Root of data classification" type=folder]
+	"file1.txt" [tooltip="file1.txt"]
+	folder2 [tooltip=folder2]
+	"file2.txt" [tooltip="file2.txt"]
+	folder1 [tooltip=folder1]
+	"folder\d" [tooltip="^folder\d$"]
+	".*" [tooltip="^.*$"]
+	root -> "folder_{date-dash}"
+	"folder_{date-dash}" -> "file_{date-dash}.txt"
+	root -> "folder_\d{4}-\d{2}-\d{2}"
+	"folder_\d{4}-\d{2}-\d{2}" -> "file_\d{4}-\d{2}-\d{2}.txt"
+	root -> "folder_\d{4}-\d{2}-\d{2}"
+	"folder_\d{4}-\d{2}-\d{2}" -> "file_\d{4}-\d{2}-\d{2}.txt"
+	"folder_\d{4}-\d{2}-\d{2}" -> "folder_\d{4}-\d{2}-\d{2}"
+	"file_\d{4}-\d{2}-\d{2}.txt" -> "file_\d{4}-\d{2}-\d{2}.txt"
+	root -> "file1.txt"
+	root -> folder2
+	root -> "file2.txt"
+	root -> older
+	folder1 -> "file1.txt"
+	folder1 -> folder2
+	folder1 -> "file2.txt"
+	older -> "folder\d"
+	"folder\d" -> ".*"
+	root -> "folder\d"
+	root -> "file\d.txt"
+	root -> "folder\d"
+	"folder\d" -> "file\d.txt"
+	"folder\d" -> "folder\d"
+	"folder\d" -> ".*"
+	root -> folder2
+	folder2 -> ".*"
+	root -> "file1.txt"
+	root -> folder2
+	root -> "file2.txt"
+	root -> older
+	folder1 -> "file1.txt"
+	folder1 -> folder2
+	folder1 -> "file2.txt"
+	older -> "folder\d"
+	"folder\d" -> ".*"
+}

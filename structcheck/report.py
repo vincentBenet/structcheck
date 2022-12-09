@@ -11,7 +11,7 @@ import getpass
 from . import utils
 
 
-def generate(path_root, path_conf, path_report, path_data, reports, logs):
+def generate(path_root, path_conf, path_report, path_data, reports, logs, config):
     """
     Report generation
 
@@ -27,8 +27,6 @@ def generate(path_root, path_conf, path_report, path_data, reports, logs):
     reports_txt = ""
     error_num = 1
     filter_errors = []
-    with open(path_conf) as file:
-        config = json.load(file)
     for report_i in reports:
         error_path, error_type, error_args = report_i
         is_root = error_path == path_root
@@ -41,6 +39,7 @@ def generate(path_root, path_conf, path_report, path_data, reports, logs):
                 is_root and
                 error_type in ["Empty directory", "Missing folder matching"] or
                 error_path in [path_conf, path_report, path_data] or
+                os.path.basename(error_path) in ["graph.svg", "graph.gv"] or
 				sum([1 for folder in config.get("ignored_folders", []) if re.match(folder, error_path[len(path_root)+1:])])
         ):
             filter_errors.append("".join(report_i))
@@ -93,6 +92,7 @@ def generate(path_root, path_conf, path_report, path_data, reports, logs):
     txt += "Scan structures of files and folders" + "\n"
     txt += "This script use REGEX to validate files and folders structure. "
     txt += "Please find regex usage on < https://regex101.com/ >" + "\n"
+    txt += f"root : {path_root}" + "\n"
     now = datetime.datetime.strftime(datetime.datetime.now(), '%Y-%m-%d %H:%M:%S')
     txt += f"Scan : {now} by < {getpass.getuser()} >" + "\n"
     txt += ("\n" + "_" * 50 + "RESUME" + "_" * 50) + "\n"

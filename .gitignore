@@ -5,6 +5,8 @@ __pycache__/
 .pytest_cache/
 *.py[cod]
 *$py.class
+**/*/graph.gv
+**/*/graph.svg
 
 # C extensions
 *.so

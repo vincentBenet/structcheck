@@ -15,6 +15,7 @@ except ModuleNotFoundError:
     
 from . import recscan
 from . import report
+from . import to_graphviz
 
 
 def parse(args=None):
@@ -103,19 +104,21 @@ def main(path_root, path_conf, path_report, path_data, display=True):
     """
     with open(path_conf, "r", encoding="utf8") as file:
         config = json.load(file)
+    
+    to_graphviz.main(path_conf, os.path.join(os.path.dirname(path_report), "graph"))
         
-    reports, logs = recscan.init_scan(path_root, config)
+    reports, logs, config = recscan.init_scan(path_root, config)
     reports, logs = recscan.check_unallowed(path_root, config["Structure"], config.get("dates_format", []), reports, log=logs)
     reports, logs = recscan.check_unpresent(path_root, config["Structure"], reports, logs)
-    txt, reports, logs = report.generate(path_root, path_conf, path_report, path_data, reports, logs)
+    txt, reports, logs = report.generate(path_root, path_conf, path_report, path_data, reports, logs, config)
 
     if display:
         print(txt)
     return txt, reports, logs
 
 
-def scan():
-    args = parse()
+def scan(argu=None):
+    args = parse(argu)
     args = check_args(args)
     return main(args["root"], args["conf"], args["report"], args["data"])
 

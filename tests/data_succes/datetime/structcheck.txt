@@ -2,13 +2,14 @@
 __________________________________________________INTRODUCTION__________________________________________________
 Scan structures of files and folders
 This script use REGEX to validate files and folders structure. Please find regex usage on < https://regex101.com/ >
-Scan : 2022-09-28 17:28:41 by < vince >
+root : C:\Users\vince\Desktop\structcheck\tests\data_succes\datetime
+Scan : 2022-12-09 16:51:12 by < vince >
 
 __________________________________________________RESUME__________________________________________________
 Date file validation: 2 (+0)
 Date folder validation: 1 (+0)
 Errors: 0 (+0)
-File allowed checked: 5 (+0)
+File allowed checked: 7 (+0)
 File allowed validated: 2 (+0)
 File presence checked: 3 (+0)
 File presence validated: 3 (+0)
@@ -16,13 +17,12 @@ Folder allowed checked: 2 (+0)
 Folder allowed validated: 2 (+0)
 Folder presence checked: 3 (+0)
 Folder presence validated: 2 (+0)
-Total empty directory: 0 (+0)
-Total files: 5 (+0)
+Total files: 7 (+0)
 Total folders: 3 (+0)
 
-Coverage files: 8 / 5 : 100.0% (+0.0%)
+Coverage files: 10 / 7 : 71.43% (+0.0%)
 Coverage folders: 5 / 3 : 166.67% (+0.0%)
-Allowed Files: 2 / 5 : 40.0% (+0.0%)
+Allowed Files: 2 / 7 : 28.57% (+0.0%)
 Allowed Folders: 2 / 2 : 100.0% (+0.0%)
 Presence Files: 3 / 3 : 100.0% (+0.0%)
 Presence Folders: 2 / 3 : 66.67% (+0.0%)

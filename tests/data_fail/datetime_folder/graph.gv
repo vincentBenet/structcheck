@@ -1,0 +1,15 @@
+digraph "Graph" {
+	root [description="Root of data classification" regex="^root$" tooltip="root : Root of data classification" type=folder]
+	"folder_\d{4}-\d{2}-\d{2}" [tooltip="^folder_\d{4}-\d{2}-\d{2}$
+
+
+Example: folder_\d{4}-\d{2}-\d{2}"]
+	"file_\d{4}-\d{2}-\d{2}.txt" [tooltip="^file_\d{4}-\d{2}-\d{2}.txt$
+
+
+Example: file_\d{4}-\d{2}-\d{2}.txt"]
+	root -> "folder_{date-dash}"
+	"folder_{date-dash}" -> "file_{date-dash}.txt"
+	root -> "folder_\d{4}-\d{2}-\d{2}"
+	"folder_\d{4}-\d{2}-\d{2}" -> "file_\d{4}-\d{2}-\d{2}.txt"
+}

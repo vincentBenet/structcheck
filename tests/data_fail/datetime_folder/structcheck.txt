@@ -2,13 +2,14 @@
 __________________________________________________INTRODUCTION__________________________________________________
 Scan structures of files and folders
 This script use REGEX to validate files and folders structure. Please find regex usage on < https://regex101.com/ >
-Scan : 2022-09-28 17:28:41 by < vince >
+root : C:\Users\vince\Desktop\structcheck\tests\data_fail\datetime_folder
+Scan : 2022-12-09 16:51:12 by < vince >
 
 __________________________________________________RESUME__________________________________________________
 Error: 1 (+0)
 Error: Date file different: 1 (+0)
 Errors: 0 (+0)
-File allowed checked: 4 (+0)
+File allowed checked: 6 (+0)
 File allowed validated: 1 (+0)
 File presence checked: 1 (+0)
 File presence validated: 1 (+0)
@@ -16,17 +17,16 @@ Folder allowed checked: 1 (+0)
 Folder allowed validated: 1 (+0)
 Folder presence checked: 1 (+0)
 Folder presence validated: 1 (+0)
-Total empty directory: 0 (+0)
-Total files: 4 (+0)
+Total files: 6 (+0)
 Total folders: 2 (+0)
 
-Coverage files: 5 / 4 : 50.0% (+0.0%)
+Coverage files: 7 / 6 : 33.33% (+0.0%)
 Coverage folders: 2 / 2 : 100.0% (+0.0%)
-Allowed Files: 1 / 4 : 25.0% (+0.0%)
+Allowed Files: 1 / 6 : 16.67% (+0.0%)
 Allowed Folders: 1 / 1 : 100.0% (+0.0%)
 Presence Files: 1 / 1 : 100.0% (+0.0%)
 Presence Folders: 1 / 1 : 100.0% (+0.0%)
 
 __________________________________________________ERRORS__________________________________________________
-1: folder_2022-01-02/file_2022-01-01.txt (vince) : Date file different | > 2022-01-01 00:00:00 < different of parent date > 2022-01-02 00:00:00 <
+1: folder_2022-01-02\file_2022-01-01.txt (C:\Users\vince\Desktop\structcheck\tests\data_fail\datetime_folder) : Date file different | > 2022-01-01 00:00:00 < different of parent date > 2022-01-02 00:00:00 <
 

@@ -23,6 +23,9 @@ def init_scan(path_root, config):
     
     report = []
 
+    config["Structure"] = build_regexes(config["Structure"], config.get("regex_variables", {}), config.get("regex_names", {}))
+    
+    
     for raw, _, files in os.walk(path_root):
         ignore = False
         for ignored_folder in config.get("ignored_folders", []):
@@ -34,8 +37,30 @@ def init_scan(path_root, config):
         if len(files) == 0:
             report.append([raw, "Empty directory", ""])
 
-    return report, logs
+    return report, logs, config
 
+
+def build_regexes(structure, regex_variables, regex_names):
+    for elem in structure:
+        value = structure[elem]
+        type_elem = type(value)
+        if isinstance(type_elem, list):
+            for i, el in enumerate(value):
+                value[i] = build_regex(el, regex_variables, regex_names)
+            structure[elem] = value
+        elif isinstance(type_elem, dict):
+            structure[elem] = build_regexes(structure[elem], regex_variables, regex_names)
+            structure[build_regex(elem, regex_variables, regex_names)] = structure.pop(elem)
+    return structure
+    
+def build_regex(regex_name, regex_variables, regex_names):
+    regex = regex_names[regex_name]
+    matches = re.findall("{.*?}", regex)
+    for match in matches:
+        regex_key = regex_variables[match.replace("{", "").replace("}", "")]
+        regex_value = regex_key["regex"]
+        regex = regex.replace(match, regex_value)
+    return regex
 
 def check_iter_unallowed_dict(
         path_file, struct, dates_format, report=None, log=None, date_parent=None, key=None, path_next=None):

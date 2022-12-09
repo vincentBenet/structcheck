@@ -1,11 +1,30 @@
 {
+	"regex_names": {
+		"date_Folder": {
+			"regex": "^folder_{date-dash}$",
+			"type": "folder",
+			"description": "Root of data classification"
+		},
+		"date_File": {
+			"regex": "^file_{date-dash}.txt$",
+			"type": "file",
+			"description": "Date with dashs"
+		}
+	},
+	"regex_variables": {
+		"date-dash": {
+			"regex": "\\d{4}-\\d{2}-\\d{2}",
+			"description": "Date of day separated with dashes",
+			"example": "1996-21-03"
+		}
+	},
 	"dates_format": {
 		"\\d{4}-\\d{2}-\\d{2}": "%Y-%m-%d"
     },
 	"Structure": {
-		"^folder_\\d{4}-\\d{2}-\\d{2}$": {
+		"date_Folder": {
 			"Files": [
-				"^file_\\d{4}-\\d{2}-\\d{2}.txt$"
+				"date_File"
 			]
 		}
     }

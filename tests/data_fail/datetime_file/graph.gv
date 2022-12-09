@@ -1,0 +1,15 @@
+digraph "Graph" {
+	root [description="Root of data classification" regex="^root$" tooltip="root : Root of data classification" type=folder]
+	"folder_{date-dash}" [description="Root of data classification" regex="^folder_{date-dash}$" tooltip="date_Folder : Root of data classification
+
+{date-dash} = Date of day separated with dashes
+
+Example: folder_1996-21-03" type=folder xlabel=date_Folder]
+	"file_{date-dash}.txt" [description="Date with dashs" regex="^file_{date-dash}.txt$" tooltip="date_File : Date with dashs
+
+{date-dash} = Date of day separated with dashes
+
+Example: file_1996-21-03.txt" type=file xlabel=date_File]
+	root -> "folder_{date-dash}"
+	"folder_{date-dash}" -> "file_{date-dash}.txt"
+}
