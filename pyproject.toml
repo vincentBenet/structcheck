@@ -1,34 +1,18 @@
 [tool.poetry]
 name = "structcheck"
-version = "1.0.17"
-description = "Project to check not presents and not allowed files and folders using regex. Include also some datums corresponding validations in folders and filenames. This project don't check files contents!"
+version = "1.0.19"
+description = ""
 authors = ["vincentBenet <vincent.benet@outlook.fr>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.8"
+python = "^3.10"
+graphviz = "^0.20.1"
 
-
-[tool.poetry.group.test.dependencies]
-unittest = "^0.0"
-pylint = "^2.15.3"
-
-
-[tool.poetry.group.doc.dependencies]
-Sphinx = "^5.2.2"
-
-
-[[tool.poetry.source]]
-name = "foo"
-url = "https://test.pypi.org/simple/"
-default = false
-secondary = false
+[tool.poetry.group.dev.dependencies]
+Sphinx = "^5.3.0"
+sphinx-rtd-theme = "^1.1.1"
 
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
-
-[project.urls]
-"Homepage" = "https://github.com/pypa/structcheck"
-"Bug Tracker" = "https://github.com/pypa/structcheck/issues"
-"Author" = "https://github.com/vincentBenet"
