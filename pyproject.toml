@@ -1,12 +1,12 @@
 [tool.poetry]
 name = "structcheck"
-version = "1.0.20"
+version = "1.0.22"
 description = ""
 authors = ["vincentBenet <vincent.benet@outlook.fr>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.10"
+python = "^3.8"
 graphviz = "^0.20.1"
 
 [tool.poetry.group.dev.dependencies]
