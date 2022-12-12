@@ -7,7 +7,7 @@ import os
 import datetime
 
 
-def init_scan(config: dict) -> tuple[list[list[str]], dict[str, int]]:
+def init_scan(config: dict):
     """
     First scan of tree structure to check for empty directory
 
