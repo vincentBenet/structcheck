@@ -11,7 +11,7 @@ import getpass
 from . import utils
 
 
-def generate(path_root, path_conf, path_report, path_data, reports, logs, config):
+def generate(config, reports, logs):
     """
     Report generation
 
@@ -21,26 +21,34 @@ def generate(path_root, path_conf, path_report, path_data, reports, logs, config
     :param path_data:
     :param reports:
     :param logs:
+    :param config:
     :return:
     """
+    print(f"Generating report at {config['paths']['report']}")
     reports = sorted(reports, key=lambda x: x[0])
     reports_txt = ""
     error_num = 1
     filter_errors = []
     for report_i in reports:
         error_path, error_type, error_args = report_i
-        is_root = error_path == path_root
+        is_root = error_path == config['paths']['root']
         key = f"Error: {error_type}"
         owner = utils.find_owner(error_path)
-        owner = owner if owner != '' else path_root
-        report_error = f"{error_num}: {error_path[len(path_root) + 1:]} ({owner}) : {error_type} | {error_args}" + "\n"
-        
+        owner = owner if owner != '' else config['paths']['root']
+        report_error = f"{error_num}: {error_path[len(config['paths']['root']):]} ({owner}) : {error_type} | {error_args}" + "\n"
         if (
-                is_root and
-                error_type in ["Empty directory", "Missing folder matching"] or
-                error_path in [path_conf, path_report, path_data] or
-                os.path.basename(error_path) in ["graph.svg", "graph.gv"] or
-				sum([1 for folder in config.get("ignored_folders", []) if re.match(folder, error_path[len(path_root)+1:])])
+            error_path[len(config['paths']['root']):].split(os.sep)[0] in config['ignored_paths'] or
+            is_root and
+            error_type in ["Empty directory", "Missing folder matching"] or
+            error_path in [
+                config['paths']['structure'],
+                config['paths']['report'],
+                config['paths']['config_report'],
+                config['paths']['graph'],
+                config['paths']['data'],
+                config['paths']['graph_svg'],
+                config['paths']['config_report'],
+            ]
         ):
             filter_errors.append("".join(report_i))
             continue
@@ -55,8 +63,8 @@ def generate(path_root, path_conf, path_report, path_data, reports, logs, config
         if "".join([error_path, error_type, error_args]) not in filter_errors
     ]
 
-    if os.path.isfile(path_data):
-        with open(path_data, "r", encoding="utf8") as file:
+    if os.path.isfile(config['paths']['data']):
+        with open(config['paths']['data'], "r", encoding="utf8") as file:
             try:
                 logs_old = json.load(file)
             except:
@@ -92,7 +100,7 @@ def generate(path_root, path_conf, path_report, path_data, reports, logs, config
     txt += "Scan structures of files and folders" + "\n"
     txt += "This script use REGEX to validate files and folders structure. "
     txt += "Please find regex usage on < https://regex101.com/ >" + "\n"
-    txt += f"root : {path_root}" + "\n"
+    txt += f"root : {config['paths']['root']}" + "\n"
     now = datetime.datetime.strftime(datetime.datetime.now(), '%Y-%m-%d %H:%M:%S')
     txt += f"Scan : {now} by < {getpass.getuser()} >" + "\n"
     txt += ("\n" + "_" * 50 + "RESUME" + "_" * 50) + "\n"
@@ -123,10 +131,10 @@ def generate(path_root, path_conf, path_report, path_data, reports, logs, config
     txt += "\n" + "_" * 50 + "ERRORS" + "_" * 50 + "\n"
     txt += f'{reports_txt}' + "\n"
 
-    with open(path_report, "w", encoding="utf8") as file:
+    with open(config['paths']['report'], "w", encoding="utf8") as file:
         file.write(txt)
 
-    with open(path_data, "w", encoding="utf8") as file:
+    with open(config['paths']['data'], "w", encoding="utf8") as file:
         json.dump({**logs, **coverages}, file)
 
     return txt, reports, logs

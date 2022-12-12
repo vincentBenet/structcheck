@@ -7,11 +7,10 @@ import os
 import datetime
 
 
-def init_scan(path_root, config):
+def init_scan(config: dict) -> tuple[list[list[str]], dict[str, int]]:
     """
     First scan of tree structure to check for empty directory
 
-    :param path_root:
     :param config:
     :return:
     """
@@ -20,56 +19,27 @@ def init_scan(path_root, config):
         "Total folders": 0,
         "Errors": 0
     }
-    
+
     report = []
 
-    config["Structure"] = build_regexes(config["Structure"], config.get("regex_variables", {}), config.get("regex_names", {}))
-    
-    
-    for raw, _, files in os.walk(path_root):
-        ignore = False
-        for ignored_folder in config.get("ignored_folders", []):
-            if raw.startswith(os.path.join(path_root, ignored_folder)):
-                ignore = True
-        if not ignore:
-            logs["Total files"] += len(files)
-            logs["Total folders"] += 1
+    print(f"Walking into {config['paths']['root']} for scan initialisation")
+    for raw, _, files in os.walk(config['paths']['root']):
+        logs["Total files"] += len(files)
+        logs["Total folders"] += 1
         if len(files) == 0:
             report.append([raw, "Empty directory", ""])
 
-    return report, logs, config
+    return report, logs
 
-
-def build_regexes(structure, regex_variables, regex_names):
-    for elem in structure:
-        value = structure[elem]
-        type_elem = type(value)
-        if isinstance(type_elem, list):
-            for i, el in enumerate(value):
-                value[i] = build_regex(el, regex_variables, regex_names)
-            structure[elem] = value
-        elif isinstance(type_elem, dict):
-            structure[elem] = build_regexes(structure[elem], regex_variables, regex_names)
-            structure[build_regex(elem, regex_variables, regex_names)] = structure.pop(elem)
-    return structure
-    
-def build_regex(regex_name, regex_variables, regex_names):
-    regex = regex_names[regex_name]
-    matches = re.findall("{.*?}", regex)
-    for match in matches:
-        regex_key = regex_variables[match.replace("{", "").replace("}", "")]
-        regex_value = regex_key["regex"]
-        regex = regex.replace(match, regex_value)
-    return regex
 
 def check_iter_unallowed_dict(
-        path_file, struct, dates_format, report=None, log=None, date_parent=None, key=None, path_next=None):
+        path_file: str, struct: dict, config: dict, report=None, log=None, date_parent=None, key=None, path_next=None):
     """
     Check for not allowed foldersand dates non-regression.
 
     :param path_file:
     :param struct:
-    :param dates_format:
+    :param config:
     :param report:
     :param log:
     :param date_parent:
@@ -80,14 +50,14 @@ def check_iter_unallowed_dict(
     log["Folder allowed validated"] = log.get("Folder allowed validated", 0) + 1
     date_call = date_parent
     validate_iter = True
-    for date_regex in dates_format:
+    for date_regex in config["dates_format"]:
         if date_regex not in key:
             continue
         regex = re.search(date_regex, path_next)
         if not regex:
             continue
         date_str = regex.group(0)
-        date_file = datetime.datetime.strptime(date_str, dates_format[date_regex])
+        date_file = datetime.datetime.strptime(date_str, config["dates_format"][date_regex])
         if date_parent is None:
             date_call = date_file
         elif date_file < date_parent:
@@ -99,12 +69,12 @@ def check_iter_unallowed_dict(
             elif date_parent < date_file:
                 date_call = date_file
         break
-    report, log = check_unallowed(path_file, struct[key], dates_format, report, log, date_call)
+    report, log = check_unallowed(path_file, struct[key], config, report, log, date_call)
     return report, log, validate_iter, date_parent
 
 
-def check_iter_unallowed_list(path_file, struct, dates_format, report=None, log=None, date_parent=None, key=None,
-                              path_next=None):
+def check_iter_unallowed_list(
+        path_file, struct, config, report=None, log=None, date_parent=None, key=None, path_next=None):
     """
     Check for not allowed files and date corresponding.
 
@@ -123,18 +93,20 @@ def check_iter_unallowed_list(path_file, struct, dates_format, report=None, log=
         if re.match(struct_file, path_next) or path_next == struct_file:
             log["File allowed validated"] = log.get("File allowed validated", 0) + 1
             validate_iter = True
-            for date_regex in dates_format:
+            for date_regex in config["dates_format"]:
                 if date_regex in struct_file:
                     regex = re.search(date_regex, path_next)
                     if not regex:
                         continue
                     date_str = regex.group(0)
-                    date_file = datetime.datetime.strptime(date_str, dates_format[date_regex])
+                    date_file = datetime.datetime.strptime(date_str, config["dates_format"][date_regex])
                     if date_parent is None:
                         pass
                     elif date_file != date_parent:
-                        report.append([path_file, "Date file different",
-                                       f"> {date_file} < different of parent date > {date_parent} <"])
+                        report.append([
+                            path_file,
+                            "Date file different",
+                            f"> {date_file} < different of parent date > {date_parent} <"])
                     else:
                         log["Date file validation"] = log.get("Date file validation", 0) + 1
                     break
@@ -142,18 +114,19 @@ def check_iter_unallowed_list(path_file, struct, dates_format, report=None, log=
     return report, log, validate_iter, date_parent
 
 
-def check_unallowed(path, struct, dates_format, report=None, log=None, date_parent=None):
+def check_unallowed(path: str, struct: dict, config: dict, report: list = None, log: list = None, date_parent=None):
     """
     Run scan for not allowed paths.
 
     :param path:
     :param struct:
-    :param dates_format:
+    :param config:
     :param report:
     :param log:
     :param date_parent:
     :return:
     """
+    print(f"Scanning {path} for any unallowed path")
     if report is None:
         report = []
     if log is None:
@@ -169,21 +142,15 @@ def check_unallowed(path, struct, dates_format, report=None, log=None, date_pare
         validate_iter = False
         for key in struct:
             if (
-                isinstance(struct[key], dict) and
-                (
-                    key.startswith("^") and
-                    key.endswith("$")
-                ) and
-                re.match(key, path_next) or
-                path_next == key
+                    isinstance(struct[key], dict) and
+                    re.match(key, path_next) or
+                    path_next == key
             ):
-                report, log, validate_iter, date_parent = check_iter_unallowed_dict(path_file, struct, dates_format,
-                                                                                    report, log, date_parent, key,
-                                                                                    path_next)
+                report, log, validate_iter, date_parent = check_iter_unallowed_dict(
+                    path_file, struct, config, report, log, date_parent, key, path_next)
             elif isinstance(struct[key], list):
-                report, log, validate_iter, date_parent = check_iter_unallowed_list(path_file, struct, dates_format,
-                                                                                    report, log, date_parent, key,
-                                                                                    path_next)
+                report, log, validate_iter, date_parent = check_iter_unallowed_list(
+                    path_file, struct, config, report, log, date_parent, key, path_next)
             if validate_iter:
                 break
         if validate_iter:
@@ -199,8 +166,8 @@ def check_unallowed(path, struct, dates_format, report=None, log=None, date_pare
                 path_file,
                 "Not allowed folder",
                 f"""< {path_next} >. Allowed matches : {
-                    struct.get('Files', []) + struct.get('Files_optionnal', []) +
-                    [k for k in struct if k not in ['Files', 'Files_optionnal']]
+                struct.get('Files', []) + struct.get('Files_optionnal', []) +
+                [k for k in struct if k not in ['Files', 'Files_optionnal']]
                 }"""])
     return report, log
 
@@ -215,6 +182,7 @@ def check_unpresent(path, struct, report=None, log=None):
     :param log:
     :return:
     """
+    print(f"Scanning {path} for any unpresent path")
     if report is None:
         report = []
     if log is None:
@@ -236,10 +204,10 @@ def check_unpresent(path, struct, report=None, log=None):
                         for path_next2 in dirs:
                             log["File presence checked"] = log.get("File presence checked", 0) + 1
                             if (
-                                key2.startswith("^") and
-                                key2.endswith("$") and
-                                re.match(key2, path_next2) or
-                                path_next2 == key2
+                                    key2.startswith("^") and
+                                    key2.endswith("$") and
+                                    re.match(key2, path_next2) or
+                                    path_next2 == key2
                             ):
                                 log["File presence validated"] = log.get("File presence validated", 0) + 1
                                 break
@@ -251,11 +219,11 @@ def check_unpresent(path, struct, report=None, log=None):
                             breaker2 = True
                             break
                 elif (
-                    isinstance(struct[key], dict) and
-                    (
-                        key.startswith("^") and
-                        key.endswith("$")
-                    ) and
+                        isinstance(struct[key], dict) and
+                        (
+                                key.startswith("^") and
+                                key.endswith("$")
+                        ) and
                         re.match(key, path_next) or
                         path_next == key
                 ):

@@ -56,7 +56,7 @@ class TestStructures(unittest.TestCase):
                 "root": path_folder
             })
             _, reports, _ = structcheck.main(
-                args["root"], args["conf"], args["report"], args["data"]
+                args["root"], args["conf"], args["report"], args["data"],
             )
 
             self.assertEqual(len(reports), 1)  # Check exactly one error
