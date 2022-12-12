@@ -135,6 +135,6 @@ def generate(config, reports, logs):
         file.write(txt)
 
     with open(config['paths']['data'], "w", encoding="utf8") as file:
-        json.dump({**logs, **coverages}, file)
+        json.dump({**logs, **coverages}, file, indent=4)
 
     return txt, reports, logs

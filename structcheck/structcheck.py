@@ -171,7 +171,10 @@ def main(
     config["paths"]["report"] = path_report
     # Build regex config
     config["structure_regexes"] = regex.buid_structure_regex(
-        config["structure"], config["names"], config["variables"])
+        config["structure"],
+        config["names"],
+        config["variables"]
+    )
     config["structure_names"] = regex.buid_structure_names(config["structure"], config["names"])
 
     config["paths"]["data"] = path_data
