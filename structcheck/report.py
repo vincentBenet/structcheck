@@ -100,7 +100,7 @@ def generate(config, reports, logs):
     txt += "Scan structures of files and folders" + "\n"
     txt += "This script use REGEX to validate files and folders structure. "
     txt += "Please find regex usage on < https://regex101.com/ >" + "\n"
-    txt += f"root : {config['paths']['root']}" + "\n"
+    txt += f"Paths : {config['paths']}" + "\n"
     now = datetime.datetime.strftime(datetime.datetime.now(), '%Y-%m-%d %H:%M:%S')
     txt += f"Scan : {now} by < {getpass.getuser()} >" + "\n"
     txt += ("\n" + "_" * 50 + "RESUME" + "_" * 50) + "\n"
