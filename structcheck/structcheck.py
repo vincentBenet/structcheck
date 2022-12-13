@@ -76,18 +76,18 @@ def check_args(args_input):
         if os.path.isfile(conf_file):
             args_input["root"] = sys.argv[0]
             args_input["conf"] = conf_file
-
-        while TK:
-            root = tkinter.Tk()
-            root.withdraw()
-            root.update()
-            args_input["root"] = tkinter.filedialog.askdirectory(
-                initialdir=os.getcwd(),
-                title="Select the root of architecture folder",
-            )
-            root.destroy()
-            if args_input["root"] != "":
-                break
+        else:
+            while TK:
+                root = tkinter.Tk()
+                root.withdraw()
+                root.update()
+                args_input["root"] = tkinter.filedialog.askdirectory(
+                    initialdir=os.getcwd(),
+                    title="Select the root of architecture folder",
+                )
+                root.destroy()
+                if args_input["root"] != "":
+                    break
     if args_input.get("conf", None) is None:  # Input file path
         default_path = os.path.join(
             args_input["root"],
