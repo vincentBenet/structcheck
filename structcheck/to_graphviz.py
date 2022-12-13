@@ -82,8 +82,8 @@ def data_create(dico, config, nodes=None, links=None):
             attributes_node = config.get("nodes", {}).get("tree", {})
             attributes_edge = config.get("edges", {}).get("tree", {})
             links.append([
-                config["names"].get(source, {"regex": source})["regex"],
-                config["names"].get(elem, {"regex": elem})["regex"], {},
+                source,
+                elem,
                 attributes_edge
             ])
 
