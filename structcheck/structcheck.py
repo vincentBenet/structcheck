@@ -180,7 +180,7 @@ def main(
     config["paths"]["data"] = path_data
     config["paths"]["graph"] = os.path.join(os.path.dirname(path_report), "graph.gv")  # Output path for graph next to report in gv format
     config["paths"]["graph_svg"] = os.path.join(os.path.dirname(path_report), "graph.svg")  # Output path for graph next to report in svg
-    config["paths"]["config_report"] = os.path.join(os.path.dirname(path_report), "config_report.json")
+    config["paths"]["config_report"] = os.path.join(os.path.dirname(path_report), "config.json")
 
     with open(config["paths"]["config_report"], "w") as file:
         json.dump(config, file, indent=4)

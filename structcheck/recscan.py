@@ -26,7 +26,7 @@ def init_scan(config: dict):
     for raw, _, files in os.walk(config['paths']['root']):
         logs["Total files"] += len(files)
         logs["Total folders"] += 1
-        if len(files) == 0:
+        if len(os.listdir(raw)) == 0:
             report.append([raw, "Empty directory", ""])
 
     return report, logs
@@ -190,9 +190,9 @@ def check_unpresent(path, struct, report=None, log=None):
     if os.path.isfile(path):
         return report, log
     dirs = os.listdir(path)
-    if len(dirs) == 0 and struct != {}:
-        report.append([path, "Empty directory", ""])
-    else:
+    # if len(dirs) == 0 and struct != {}:
+    #     report.append([path, "Empty directory", ""])
+    if not(len(dirs) == 0 and struct != {}):
         for key in struct:
             not_found = True
             breaker2 = False
