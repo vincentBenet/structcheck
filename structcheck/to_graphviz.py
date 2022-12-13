@@ -155,4 +155,8 @@ def main(config):
         f.node(node, **nodes[node])
     for link in links:
         f.edge(link[0], link[1], **link[2])
-    f.render(outfile=config['paths']['graph_svg'], format="svg")
+
+    try:
+        f.render(outfile=config['paths']['graph_svg'], format="svg")
+    except Exception as e:
+        print(f"ERROR GRAPHVIZ: {e}")
