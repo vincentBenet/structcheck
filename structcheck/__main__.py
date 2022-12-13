@@ -1,4 +1,5 @@
 import os
+import sys
 from . import structcheck
 import pkg_resources
 
@@ -10,8 +11,12 @@ if __name__ == "__main__":
     print(f"structckeck version = {version}")
     print(f"Scanning directory = {directory}")
 
+    args = sys.argv
+    if len(args) > 1:
+        args = args[1:]
+    else:
+        args = ["-p", directory]
+
     raise SystemExit(
-        structcheck.scan(
-            ["-p", directory]
-        )
+        structcheck.scan(args)
     )
