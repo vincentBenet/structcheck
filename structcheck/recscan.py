@@ -190,8 +190,6 @@ def check_unpresent(path, struct, report=None, log=None):
     if os.path.isfile(path):
         return report, log
     dirs = os.listdir(path)
-    # if len(dirs) == 0 and struct != {}:
-    #     report.append([path, "Empty directory", ""])
     if not(len(dirs) == 0 and struct != {}):
         for key in struct:
             not_found = True

@@ -153,19 +153,19 @@ def main(
     config = {"paths": {}}
     with open(path_conf, "r", encoding="utf8") as file:
         print(f"Loading config file {path_conf = }")
-        config = config | json.load(file)
+        config.update(json.load(file))
         config["paths"]["structure"] = path_conf
     with open(path_names, "r", encoding="utf8") as file:
         print(f"Loading config file {path_names = }")
-        config = config | json.load(file)
+        config.update(json.load(file))
         config["paths"]["names"] = path_names
     with open(path_variables, "r", encoding="utf8") as file:
         print(f"Loading config file {path_variables = }")
-        config = config | json.load(file)
+        config.update(json.load(file))
         config["paths"]["variables"] = path_variables
     with open(path_styles, "r", encoding="utf8") as file:
         print(f"Loading config file {path_styles = }")
-        config = config | json.load(file)
+        config.update(json.load(file))
         config["paths"]["styles"] = path_styles
     config["paths"]["root"] = path_root
     config["paths"]["report"] = path_report

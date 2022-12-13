@@ -48,11 +48,11 @@ def data_create(dico, config, nodes=None, links=None):
                     i += 1
                     el += str(i)
 
-                nodes[el] = (
-                    attributes_node |
-                    copy.deepcopy(config["names"].get(node, {})) |
-                    copy.deepcopy(nodes.get(node, {}))
-                )
+                nodes[el] = {
+                    **attributes_node,
+                    **copy.deepcopy(config["names"].get(node, {})),
+                    **copy.deepcopy(nodes.get(node, {}))
+                }
 
                 nodes[el]["label"] = nodes[el]["regex"]
                 if nodes[el]["label"].startswith("^"):
@@ -105,7 +105,7 @@ def data_create(dico, config, nodes=None, links=None):
                 attributes_edge
             ])
 
-            nodes[el] = attributes_node | config["names"].get(node, {})
+            nodes[el] = {**attributes_node, **config["names"].get(node, {})}
             nodes[el]["label"] = nodes[el]["regex"]
             if nodes[el]["label"].startswith("^"):
                 nodes[el]["label"] = nodes[el]["label"][1:]
@@ -145,7 +145,7 @@ def main(config):
     nodes, links = data_create(
         config["structure"],
         config,
-        nodes={"root": config["nodes"]["root"] | {"label": repr(config['paths']['root'])}}
+        nodes={"root": {**config["nodes"]["root"], **{"label": repr(config['paths']['root'])}}}
     )
     f = graphviz.Digraph('Graph', filename=config['paths']['graph'], format="svg")
     f.attr(**config.get("graph", {}))
