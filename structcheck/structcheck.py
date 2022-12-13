@@ -6,6 +6,9 @@ import os
 import sys
 import json
 import argparse
+import pkg_resources
+
+print(f"structckeck version = {pkg_resources.get_distribution('structcheck').version}")
 
 try:
     import tkinter
