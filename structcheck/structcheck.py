@@ -75,10 +75,10 @@ def check_args(args_input):
     :return:
     """
     if args_input.get("root", None) is None:  # Input folder path
-        conf_file = os.path.join(sys.argv[0], "config.json")
+        conf_file = os.path.join(os.getcwd(), "config.json")
         print(f"{sys.argv = }")
         if os.path.isfile(conf_file):
-            args_input["root"] = sys.argv[0]
+            args_input["root"] = os.getcwd()
             args_input["conf"] = conf_file
         else:
             while TK:
