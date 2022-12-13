@@ -75,25 +75,17 @@ def check_args(args_input):
     :return:
     """
     if args_input.get("root", None) is None:  # Input folder path
-        conf_file = os.path.join(os.getcwd(), "config.json")
-        print(f"{os.getcwd() = }")
-        print(f"{sys.argv = }")
-        print(f"{conf_file = }")
-        if os.path.isfile(conf_file):
-            args_input["root"] = os.getcwd()
-            args_input["conf"] = conf_file
-        else:
-            while TK:
-                root = tkinter.Tk()
-                root.withdraw()
-                root.update()
-                args_input["root"] = tkinter.filedialog.askdirectory(
-                    initialdir=os.getcwd(),
-                    title="Select the root of architecture folder",
-                )
-                root.destroy()
-                if args_input["root"] != "":
-                    break
+        while TK:
+            root = tkinter.Tk()
+            root.withdraw()
+            root.update()
+            args_input["root"] = tkinter.filedialog.askdirectory(
+                initialdir=os.getcwd(),
+                title="Select the root of architecture folder",
+            )
+            root.destroy()
+            if args_input["root"] != "":
+                break
     if args_input.get("conf", None) is None:  # Input file path
         default_path = os.path.join(
             args_input["root"],

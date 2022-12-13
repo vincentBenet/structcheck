@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "structcheck"
-version = "1.0.34"
+version = "1.0.35"
 description = ""
 authors = ["vincentBenet <vincent.benet@outlook.fr>"]
 readme = "README.md"
