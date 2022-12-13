@@ -72,6 +72,11 @@ def check_args(args_input):
     :return:
     """
     if args_input.get("root", None) is None:  # Input folder path
+        conf_file = os.path.join(sys.argv[0], "config.json")
+        if os.path.isfile(conf_file):
+            args_input["root"] = sys.argv[0]
+            args_input["conf"] = conf_file
+
         while TK:
             root = tkinter.Tk()
             root.withdraw()
