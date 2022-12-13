@@ -1,11 +1,11 @@
 import structcheck
 
 structcheck.scan([
-    "-p", "Y:\\",
-    "-r", "Y:\\report.txt",
-    "-d", "Y:\\report.json",
-    "-c", "T:\\admin_skipper\\Share - SkipperNDT.json",
-    "-n", "T:\\admin_skipper\\regex_names.json",
-    "-v", "T:\\admin_skipper\\regex_variables.json",
-    "-s", "T:\\admin_skipper\\styles.json",
+    "-p", "\\\\NAS-SKIPPERNDT\Share - SkipperNDT",
+    "-r", "\\\\NAS-SKIPPERNDT\Share - SkipperNDT\\report.txt",
+    "-d", "\\\\NAS-SKIPPERNDT\Share - SkipperNDT\\report.json",
+    "-c", "\\\\NAS-SKIPPERNDT\\homes\\admin_skipper\\Share - SkipperNDT.json",
+    "-n", "\\\\NAS-SKIPPERNDT\\homes\\admin_skipper\\regex_names.json",
+    "-v", "\\\\NAS-SKIPPERNDT\\homes\\admin_skipper\\regex_variables.json",
+    "-s", "\\\\NAS-SKIPPERNDT\\homes\\admin_skipper\\styles.json",
 ])

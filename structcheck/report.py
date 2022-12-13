@@ -36,8 +36,12 @@ def generate(config, reports, logs):
         owner = utils.find_owner(error_path)
         owner = owner if owner != '' else config['paths']['root']
         report_error = f"{error_num}: {error_path[len(config['paths']['root']):]} ({owner}) : {error_type} | {error_args}" + "\n"
+        first_elem = error_path[len(config['paths']['root']):]
+        if first_elem.startswith(os.sep):
+            first_elem = first_elem[1:]
+        first_elem = first_elem.split(os.sep)[0]
         if (
-            error_path[len(config['paths']['root']):].split(os.sep)[0] in config['ignored_paths'] or
+            first_elem in config['ignored_paths'] or
             is_root and
             error_type in ["Empty directory", "Missing folder matching"] or
             error_path in [
